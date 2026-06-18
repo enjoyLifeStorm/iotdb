@@ -297,6 +297,7 @@ public class PipeConsensusReceiver {
             .orElseThrow(() -> new ConsensusGroupNotExistException(consensusGroupId));
     final InsertNode insertNode = req.getInsertNode();
     insertNode.markAsGeneratedByRemoteConsensusLeader();
+    insertNode.markAsGeneratedByPipe();
     insertNode.setProgressIndex(
         ProgressIndexType.deserializeFrom(ByteBuffer.wrap(req.getProgressIndex())));
     return new TPipeConsensusTransferResp(impl.writeOnFollowerReplica(insertNode));
@@ -310,6 +311,7 @@ public class PipeConsensusReceiver {
             .orElseThrow(() -> new ConsensusGroupNotExistException(consensusGroupId));
     final InsertNode insertNode = req.convertToInsertNode();
     insertNode.markAsGeneratedByRemoteConsensusLeader();
+    insertNode.markAsGeneratedByPipe();
     insertNode.setProgressIndex(
         ProgressIndexType.deserializeFrom(ByteBuffer.wrap(req.getProgressIndex())));
     return new TPipeConsensusTransferResp(impl.writeOnFollowerReplica(insertNode));

@@ -1507,6 +1507,9 @@ public class DataNodeInternalRPCServiceImpl implements IDataNodeRPCService.Iface
       long queryId =
           SESSION_MANAGER.requestQueryId(session, SESSION_MANAGER.requestStatementId(session));
       // Create and cache dataset
+      // 确保timeout参数有效，如果为0或负数则使用系统配置的默认查询超时阈值
+      long timeout = req.getTimeout() > 0 ? req.getTimeout() : IoTDBDescriptor.getInstance().getConfig().getQueryTimeoutThreshold();
+      
       ExecutionResult result =
           COORDINATOR.executeForTreeModel(
               s,
@@ -1515,7 +1518,7 @@ public class DataNodeInternalRPCServiceImpl implements IDataNodeRPCService.Iface
               executedSQL,
               partitionFetcher,
               schemaFetcher,
-              req.getTimeout(),
+              timeout,
               false);
 
       if (result.status.code != TSStatusCode.SUCCESS_STATUS.getStatusCode()

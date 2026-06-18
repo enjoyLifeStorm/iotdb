@@ -55,7 +55,7 @@ public class PipeExtractorConstant {
       "extractor.forwarding-pipe-requests";
   public static final String SOURCE_FORWARDING_PIPE_REQUESTS_KEY =
       "source.forwarding-pipe-requests";
-  public static final boolean EXTRACTOR_FORWARDING_PIPE_REQUESTS_DEFAULT_VALUE = true;
+  public static final boolean EXTRACTOR_FORWARDING_PIPE_REQUESTS_DEFAULT_VALUE = false;
 
   public static final String EXTRACTOR_HISTORY_ENABLE_KEY = "extractor.history.enable";
   public static final String SOURCE_HISTORY_ENABLE_KEY = "source.history.enable";

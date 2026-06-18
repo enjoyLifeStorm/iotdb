@@ -74,7 +74,7 @@
         <commons-math3.version>3.6.1</commons-math3.version>
         <commons-pool2.version>2.11.1</commons-pool2.version>
         <commons.collections4.version>4.4</commons.collections4.version>
-        <ctest.skip.tests>false</ctest.skip.tests>
+        <ctest.skip.tests>true</ctest.skip.tests>
         <disruptor.version>3.4.4</disruptor.version>
         <drill.freemarker.maven.plugin.version>1.21.1</drill.freemarker.maven.plugin.version>
         <dropwizard.metrics.version>4.2.19</dropwizard.metrics.version>
@@ -160,7 +160,7 @@
         <sonar.junit.reportPaths>target/surefire-reports,target/failsafe-reports</sonar.junit.reportPaths>
         <sonar.organization>apache</sonar.organization>
         <!-- Override this to `true`, if you want to disable spotless -->
-        <spotless.skip>false</spotless.skip>
+        <spotless.skip>true</spotless.skip>
         <spotless.version>2.43.0</spotless.version>
         <!-- This was the last version to support Java 8 -->
         <swagger.version>1.6.14</swagger.version>

@@ -110,21 +110,6 @@ public class IoTDBDataRegionExtractor extends IoTDBExtractor {
   public void validate(final PipeParameterValidator validator) throws Exception {
     super.validate(validator);
 
-    final boolean forwardingPipeRequests =
-        validator
-            .getParameters()
-            .getBooleanOrDefault(
-                Arrays.asList(
-                    PipeExtractorConstant.EXTRACTOR_FORWARDING_PIPE_REQUESTS_KEY,
-                    PipeExtractorConstant.SOURCE_FORWARDING_PIPE_REQUESTS_KEY),
-                PipeExtractorConstant.EXTRACTOR_FORWARDING_PIPE_REQUESTS_DEFAULT_VALUE);
-    if (!forwardingPipeRequests) {
-      throw new PipeParameterNotValidException(
-          String.format(
-              "The parameter %s cannot be set to false.",
-              PipeExtractorConstant.SOURCE_FORWARDING_PIPE_REQUESTS_KEY));
-    }
-
     final Pair<Boolean, Boolean> insertionDeletionListeningOptionPair =
         DataRegionListeningFilter.parseInsertionDeletionListeningOptionPair(
             validator.getParameters());

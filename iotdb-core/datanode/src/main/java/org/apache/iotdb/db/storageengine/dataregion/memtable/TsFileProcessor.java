@@ -322,9 +322,11 @@ public class TsFileProcessor {
     if (!insertRowNode.isGeneratedByPipe()) {
       this.isTotallyGeneratedByPipe.set(false);
     }
-    PipeInsertionDataNodeListener.getInstance()
-        .listenToInsertNode(
-            dataRegionInfo.getDataRegion().getDataRegionId(), insertRowNode, tsFileResource);
+    if (!insertRowNode.isGeneratedByRemoteConsensusLeader()) {
+      PipeInsertionDataNodeListener.getInstance()
+          .listenToInsertNode(
+              dataRegionInfo.getDataRegion().getDataRegionId(), insertRowNode, tsFileResource);
+    }
 
     int pointInserted;
     if (insertRowNode.isAligned()) {
@@ -420,9 +422,11 @@ public class TsFileProcessor {
     if (!insertRowsNode.isGeneratedByPipe()) {
       this.isTotallyGeneratedByPipe.set(false);
     }
-    PipeInsertionDataNodeListener.getInstance()
-        .listenToInsertNode(
-            dataRegionInfo.getDataRegion().getDataRegionId(), insertRowsNode, tsFileResource);
+    if (!insertRowsNode.isGeneratedByRemoteConsensusLeader()) {
+      PipeInsertionDataNodeListener.getInstance()
+          .listenToInsertNode(
+              dataRegionInfo.getDataRegion().getDataRegionId(), insertRowsNode, tsFileResource);
+    }
 
     int pointInserted = 0;
     for (InsertRowNode insertRowNode : insertRowsNode.getInsertRowNodeList()) {
@@ -535,9 +539,11 @@ public class TsFileProcessor {
     if (!insertTabletNode.isGeneratedByPipe()) {
       this.isTotallyGeneratedByPipe.set(false);
     }
-    PipeInsertionDataNodeListener.getInstance()
-        .listenToInsertNode(
-            dataRegionInfo.getDataRegion().getDataRegionId(), insertTabletNode, tsFileResource);
+    if (!insertTabletNode.isGeneratedByRemoteConsensusLeader()) {
+      PipeInsertionDataNodeListener.getInstance()
+          .listenToInsertNode(
+              dataRegionInfo.getDataRegion().getDataRegionId(), insertTabletNode, tsFileResource);
+    }
 
     int pointInserted;
     try {

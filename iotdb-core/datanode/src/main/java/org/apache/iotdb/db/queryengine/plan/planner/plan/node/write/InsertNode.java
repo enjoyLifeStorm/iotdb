@@ -191,6 +191,7 @@ public abstract class InsertNode extends SearchNode implements ComparableConsens
       case ConsensusFactory.IOT_CONSENSUS_V2:
       case ConsensusFactory.FAST_IOT_CONSENSUS:
       case ConsensusFactory.RATIS_CONSENSUS:
+      case ConsensusFactory.REAL_PIPE_CONSENSUS:
         return isGeneratedByRemoteConsensusLeader;
       case ConsensusFactory.SIMPLE_CONSENSUS:
         return false;
