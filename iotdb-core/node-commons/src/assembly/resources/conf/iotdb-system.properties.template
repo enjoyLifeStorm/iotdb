@@ -1244,6 +1244,28 @@ enable_tsfile_validation=false
 # Unit: ms
 tier_ttl_in_ms=-1
 
+# Enable tiered storage migration. When enabled, data will be migrated between tiers based on TTL and disk space.
+# effectiveMode: restart
+# Datatype: boolean
+enable_tiered_storage=false
+
+# Disk usage threshold for each tier. When usage exceeds this threshold, data is migrated to the next tier.
+# Semicolon-separated, one value per tier. Must match the number of tiers defined in dn_data_dirs.
+# effectiveMode: restart
+# Datatype: double
+dn_default_space_usage_thresholds=0.85
+
+# Migration scan interval in seconds. How often to check for files that need migration.
+# effectiveMode: restart
+# Datatype: int
+# Unit: seconds
+tier_migration_interval_seconds=3600
+
+# Maximum number of files to migrate per cycle. Limits IO impact.
+# effectiveMode: restart
+# Datatype: int
+tier_migration_batch_size=10
+
 ####################
 ### Compaction Configurations
 ####################

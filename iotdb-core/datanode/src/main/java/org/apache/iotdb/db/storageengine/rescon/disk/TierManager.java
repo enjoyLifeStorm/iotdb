@@ -222,6 +222,22 @@ public class TierManager {
     return seqTiers.size();
   }
 
+  public int getMaxTierLevel() {
+    return seqTiers.size() - 1;
+  }
+
+  public double getTierDiskUsage(int tierLevel) {
+    if (tierLevel < 0 || tierLevel >= tierDiskTotalSpace.length) {
+      return 0.0;
+    }
+    long totalSpace = tierDiskTotalSpace[tierLevel];
+    if (totalSpace == Long.MAX_VALUE || totalSpace == 0) {
+      return 0.0;
+    }
+    long usableSpace = getTierDiskUsableSpace()[tierLevel];
+    return 1.0 - ((double) usableSpace / totalSpace);
+  }
+
   public int getFileTierLevel(File file) {
     // If the file does not exist on Local disk, it is assumed be on remote Object Storage
     if (!file.exists()) {

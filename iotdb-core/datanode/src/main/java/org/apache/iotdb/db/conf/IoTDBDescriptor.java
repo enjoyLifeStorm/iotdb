@@ -888,6 +888,34 @@ public class IoTDBDescriptor {
             properties.getProperty(
                 "enable_separate_data", Boolean.toString(conf.isEnableSeparateData()))));
 
+    conf.setEnableTieredStorage(
+        Boolean.parseBoolean(
+            properties.getProperty(
+                "enable_tiered_storage", Boolean.toString(conf.isEnableTieredStorage()))));
+
+    String tierSpaceThresholdsStr =
+        properties.getProperty(
+            "dn_default_space_usage_thresholds",
+            "0.85");
+    String[] tierSpaceThresholdsParts = tierSpaceThresholdsStr.split(";");
+    double[] tierSpaceThresholds = new double[tierSpaceThresholdsParts.length];
+    for (int i = 0; i < tierSpaceThresholdsParts.length; i++) {
+      tierSpaceThresholds[i] = Double.parseDouble(tierSpaceThresholdsParts[i].trim());
+    }
+    conf.setTierSpaceUsageThresholds(tierSpaceThresholds);
+
+    conf.setTierMigrationIntervalSeconds(
+        Integer.parseInt(
+            properties.getProperty(
+                "tier_migration_interval_seconds",
+                Integer.toString(conf.getTierMigrationIntervalSeconds()))));
+
+    conf.setTierMigrationBatchSize(
+        Integer.parseInt(
+            properties.getProperty(
+                "tier_migration_batch_size",
+                Integer.toString(conf.getTierMigrationBatchSize()))));
+
     conf.setWindowEvaluationThreadCount(
         Integer.parseInt(
             properties.getProperty(

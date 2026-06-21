@@ -3406,6 +3406,26 @@ public class DataRegion implements IDataRegionForQuery {
     return tsFileManager.getTsFileList(false);
   }
 
+  public List<TsFileResource> getAllClosedSequenceResources() {
+    List<TsFileResource> closedResources = new ArrayList<>();
+    for (TsFileResource resource : tsFileManager.getTsFileList(true)) {
+      if (resource.isClosed()) {
+        closedResources.add(resource);
+      }
+    }
+    return closedResources;
+  }
+
+  public List<TsFileResource> getAllClosedUnsequenceResources() {
+    List<TsFileResource> closedResources = new ArrayList<>();
+    for (TsFileResource resource : tsFileManager.getTsFileList(false)) {
+      if (resource.isClosed()) {
+        closedResources.add(resource);
+      }
+    }
+    return closedResources;
+  }
+
   public String getDataRegionId() {
     return dataRegionId;
   }

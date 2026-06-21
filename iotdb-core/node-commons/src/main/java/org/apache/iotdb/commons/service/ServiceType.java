@@ -40,6 +40,7 @@ public enum ServiceType {
   MERGE_SERVICE("Merge Manager", "Merge Manager"),
   COMPACTION_SERVICE("Compaction Manager", "Compaction Manager"),
   COMPACTION_SCHEDULE_SERVICE("Compaction Schedule Manager", "Compaction Schedule Manger"),
+  TIER_MIGRATION_SERVICE("Tier Migration Manager", "Tier Migration Manager"),
   REPAIR_DATA_SERVICE("Repair Manager", "Repair Manager"),
   PERFORMANCE_STATISTIC_SERVICE("PERFORMANCE_STATISTIC_SERVICE", "PERFORMANCE_STATISTIC_SERVICE"),
   TVLIST_ALLOCATOR_SERVICE("TVList Allocator", ""),

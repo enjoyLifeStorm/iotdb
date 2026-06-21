@@ -49,6 +49,8 @@ public enum ThreadName {
   COMPACTION_WORKER("Compaction-Worker"),
   COMPACTION_SUB_TASK("Compaction-Sub-Task"),
   COMPACTION_SCHEDULE("Compaction-Schedule"),
+  // -------------------------- Tier Migration --------------------------
+  TIER_MIGRATION_SCHEDULER("Tier-Migration-Scheduler"),
   // -------------------------- Wal --------------------------
   WAL_SERIALIZE("WAL-Serialize"),
   WAL_SYNC("WAL-Sync"),

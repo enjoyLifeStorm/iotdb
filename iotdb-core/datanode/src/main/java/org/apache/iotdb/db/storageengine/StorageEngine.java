@@ -65,6 +65,7 @@ import org.apache.iotdb.db.storageengine.dataregion.DataRegion;
 import org.apache.iotdb.db.storageengine.dataregion.compaction.repair.RepairLogger;
 import org.apache.iotdb.db.storageengine.dataregion.compaction.repair.UnsortedFileRepairTaskScheduler;
 import org.apache.iotdb.db.storageengine.dataregion.compaction.schedule.CompactionScheduleTaskManager;
+import org.apache.iotdb.db.storageengine.dataregion.tier.TierMigrationManager;
 import org.apache.iotdb.db.storageengine.dataregion.flush.CloseFileListener;
 import org.apache.iotdb.db.storageengine.dataregion.flush.FlushListener;
 import org.apache.iotdb.db.storageengine.dataregion.flush.TsFileFlushPolicy;
@@ -307,6 +308,9 @@ public class StorageEngine implements IService {
     }
 
     asyncRecoverTsFileResource();
+
+    // Start tier migration manager
+    TierMigrationManager.getInstance().start();
   }
 
   private void startTimedService() {
@@ -391,6 +395,7 @@ public class StorageEngine implements IService {
 
   @Override
   public void stop() {
+    TierMigrationManager.getInstance().stop();
     for (DataRegion dataRegion : dataRegionMap.values()) {
       if (dataRegion != null) {
         CompactionScheduleTaskManager.getInstance().unregisterDataRegion(dataRegion);

@@ -759,20 +759,24 @@ public class TsFileResource {
         return compareAndSetStatus(TsFileResourceStatus.UNCLOSED, TsFileResourceStatus.NORMAL)
             || compareAndSetStatus(TsFileResourceStatus.COMPACTING, TsFileResourceStatus.NORMAL)
             || compareAndSetStatus(
-                TsFileResourceStatus.COMPACTION_CANDIDATE, TsFileResourceStatus.NORMAL);
+                TsFileResourceStatus.COMPACTION_CANDIDATE, TsFileResourceStatus.NORMAL)
+            || compareAndSetStatus(TsFileResourceStatus.MIGRATING, TsFileResourceStatus.NORMAL);
       case UNCLOSED:
         // TsFile cannot be set back to UNCLOSED so false is always returned
         return false;
       case DELETED:
         return compareAndSetStatus(TsFileResourceStatus.NORMAL, TsFileResourceStatus.DELETED)
             || compareAndSetStatus(
-                TsFileResourceStatus.COMPACTION_CANDIDATE, TsFileResourceStatus.DELETED);
+                TsFileResourceStatus.COMPACTION_CANDIDATE, TsFileResourceStatus.DELETED)
+            || compareAndSetStatus(TsFileResourceStatus.MIGRATING, TsFileResourceStatus.DELETED);
       case COMPACTING:
         return compareAndSetStatus(
             TsFileResourceStatus.COMPACTION_CANDIDATE, TsFileResourceStatus.COMPACTING);
       case COMPACTION_CANDIDATE:
         return compareAndSetStatus(
             TsFileResourceStatus.NORMAL, TsFileResourceStatus.COMPACTION_CANDIDATE);
+      case MIGRATING:
+        return compareAndSetStatus(TsFileResourceStatus.NORMAL, TsFileResourceStatus.MIGRATING);
       default:
         return false;
     }

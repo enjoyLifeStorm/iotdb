@@ -897,6 +897,21 @@ public class IoTDBConfig {
    */
   private boolean enableSeparateData = true;
 
+  /** Enable tiered storage migration. When enabled, data will be migrated between tiers. */
+  private boolean enableTieredStorage = false;
+
+  /**
+   * Disk usage threshold for each tier. When usage exceeds this threshold, data is migrated to the
+   * next tier. Semicolon-separated, one value per tier.
+   */
+  private double[] tierSpaceUsageThresholds = {0.85};
+
+  /** Migration scan interval in seconds. */
+  private int tierMigrationIntervalSeconds = 3600;
+
+  /** Maximum number of files to migrate per cycle. */
+  private int tierMigrationBatchSize = 10;
+
   /** the method to transform device path to device id, can be 'Plain' or 'SHA256' */
   private String deviceIDTransformationMethod = "Plain";
 
@@ -1562,6 +1577,38 @@ public class IoTDBConfig {
 
   public void setEnableSeparateData(boolean enableSeparateData) {
     this.enableSeparateData = enableSeparateData;
+  }
+
+  public boolean isEnableTieredStorage() {
+    return enableTieredStorage;
+  }
+
+  public void setEnableTieredStorage(boolean enableTieredStorage) {
+    this.enableTieredStorage = enableTieredStorage;
+  }
+
+  public double[] getTierSpaceUsageThresholds() {
+    return tierSpaceUsageThresholds;
+  }
+
+  public void setTierSpaceUsageThresholds(double[] tierSpaceUsageThresholds) {
+    this.tierSpaceUsageThresholds = tierSpaceUsageThresholds;
+  }
+
+  public int getTierMigrationIntervalSeconds() {
+    return tierMigrationIntervalSeconds;
+  }
+
+  public void setTierMigrationIntervalSeconds(int tierMigrationIntervalSeconds) {
+    this.tierMigrationIntervalSeconds = tierMigrationIntervalSeconds;
+  }
+
+  public int getTierMigrationBatchSize() {
+    return tierMigrationBatchSize;
+  }
+
+  public void setTierMigrationBatchSize(int tierMigrationBatchSize) {
+    this.tierMigrationBatchSize = tierMigrationBatchSize;
   }
 
   public String getSystemDir() {
