@@ -199,6 +199,15 @@ public enum Metric {
   LOAD_POINT_COUNT("load_point_count"),
   MEMTABLE_POINT_COUNT("memtable_point_count"),
   BINARY_ALLOCATOR("binary_allocator"),
+  // tiered storage related
+  TIER_MIGRATION_TASK_COUNT("tier_migration_task_count"),
+  TIER_MIGRATION_COMPLETED("tier_migration_completed"),
+  TIER_MIGRATION_FAILED("tier_migration_failed"),
+  TIER_MIGRATION_DURATION("tier_migration_duration"),
+  TIER_DISK_USAGE_RATIO("tier_disk_usage_ratio"),
+  TIER_FILE_COUNT("tier_file_count"),
+  TIER_MIGRATION_RATE("tier_migration_rate"),
+  TIER_MIGRATION_IO_BYTES("tier_migration_io_bytes"),
   ;
 
   final String value;

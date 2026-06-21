@@ -40,11 +40,21 @@ public class TierMigrationTask implements Runnable {
   private final TsFileResource resource;
   private final int targetTierLevel;
   private final boolean sequence;
+  private boolean successful = false;
+  private long ioBytes = 0;
 
   public TierMigrationTask(TsFileResource resource, int targetTierLevel, boolean sequence) {
     this.resource = resource;
     this.targetTierLevel = targetTierLevel;
     this.sequence = sequence;
+  }
+
+  public boolean isSuccessful() {
+    return successful;
+  }
+
+  public long getIoBytes() {
+    return ioBytes;
   }
 
   @Override
@@ -130,6 +140,10 @@ public class TierMigrationTask implements Runnable {
 
       // Restore status to NORMAL
       resource.transformStatus(TsFileResourceStatus.NORMAL);
+
+      // Record success and IO bytes
+      successful = true;
+      ioBytes = targetFile.length();
 
       LOGGER.info(
           "TierMigration: Successfully migrated {} to tier {}",

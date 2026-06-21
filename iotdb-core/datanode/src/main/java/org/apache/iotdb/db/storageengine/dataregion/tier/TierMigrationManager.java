@@ -30,6 +30,7 @@ import org.apache.iotdb.db.storageengine.dataregion.DataRegion;
 import org.apache.iotdb.db.storageengine.dataregion.tsfile.TsFileResource;
 import org.apache.iotdb.db.storageengine.dataregion.tsfile.TsFileResourceStatus;
 import org.apache.iotdb.db.storageengine.rescon.disk.TierManager;
+import org.apache.iotdb.commons.service.metric.MetricService;
 
 import com.google.common.util.concurrent.RateLimiter;
 import org.slf4j.Logger;
@@ -56,11 +57,17 @@ public class TierMigrationManager implements IService {
   private volatile boolean isRunning = false;
   // Rate limiter: max 5 files per second to control IO impact
   private final RateLimiter migrationRateLimiter = RateLimiter.create(5.0);
+  // Metrics collector
+  private final TierMigrationMetrics metrics = new TierMigrationMetrics();
 
   private TierMigrationManager() {}
 
   public static TierMigrationManager getInstance() {
     return INSTANCE;
+  }
+
+  public boolean isRunning() {
+    return isRunning;
   }
 
   @Override
@@ -74,6 +81,9 @@ public class TierMigrationManager implements IService {
     if (isRunning) {
       return;
     }
+
+    // Register metrics
+    MetricService.getInstance().addMetricSet(metrics);
 
     scheduler =
         IoTDBThreadPoolFactory.newSingleThreadScheduledExecutor(
@@ -113,6 +123,9 @@ public class TierMigrationManager implements IService {
         Thread.currentThread().interrupt();
       }
     }
+
+    // Unregister metrics
+    MetricService.getInstance().removeMetricSet(metrics);
 
     isRunning = false;
     LOGGER.info("TierMigration: Stopped");
@@ -213,6 +226,13 @@ public class TierMigrationManager implements IService {
         // Execute synchronously for now to avoid thread pool complexity
         task.run();
         migratedCount++;
+
+        // Track metrics
+        if (task.isSuccessful()) {
+          metrics.incrementCompleted(task.getIoBytes());
+        } else {
+          metrics.incrementFailed();
+        }
       }
     }
 
