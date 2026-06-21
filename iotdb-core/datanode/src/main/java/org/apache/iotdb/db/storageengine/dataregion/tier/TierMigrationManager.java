@@ -31,6 +31,7 @@ import org.apache.iotdb.db.storageengine.dataregion.tsfile.TsFileResource;
 import org.apache.iotdb.db.storageengine.dataregion.tsfile.TsFileResourceStatus;
 import org.apache.iotdb.db.storageengine.rescon.disk.TierManager;
 
+import com.google.common.util.concurrent.RateLimiter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,6 +54,8 @@ public class TierMigrationManager implements IService {
   private ScheduledExecutorService scheduler;
   private ScheduledFuture<?> scheduledTask;
   private volatile boolean isRunning = false;
+  // Rate limiter: max 5 files per second to control IO impact
+  private final RateLimiter migrationRateLimiter = RateLimiter.create(5.0);
 
   private TierMigrationManager() {}
 
@@ -196,11 +199,14 @@ public class TierMigrationManager implements IService {
       }
     }
 
-    // Submit migration tasks
+    // Submit migration tasks with rate limiting
     for (TsFileResource resource : candidates) {
       if (resource.transformStatus(TsFileResourceStatus.MIGRATING)) {
         // Revert status - the task will set it again
         resource.transformStatus(TsFileResourceStatus.NORMAL);
+
+        // Rate limit to control IO impact
+        migrationRateLimiter.acquire();
 
         final TierMigrationTask task =
             new TierMigrationTask(resource, tierLevel + 1, resource.isSeq());
@@ -281,6 +287,9 @@ public class TierMigrationManager implements IService {
       if (resource.transformStatus(TsFileResourceStatus.MIGRATING)) {
         // Revert status - the task will set it again
         resource.transformStatus(TsFileResourceStatus.NORMAL);
+
+        // Rate limit to control IO impact
+        migrationRateLimiter.acquire();
 
         final TierMigrationTask task =
             new TierMigrationTask(resource, tierLevel + 1, resource.isSeq());

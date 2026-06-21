@@ -1267,6 +1267,24 @@ tier_migration_interval_seconds=3600
 tier_migration_batch_size=10
 
 ####################
+### Tiered Storage Example Configuration
+####################
+# Example: SSD for hot data (last 1 day), HDD for cold data (older than 1 day)
+#
+# enable_tiered_storage=true
+# dn_data_dirs=/data/ssd;/data/hdd
+# tier_ttl_in_ms=86400000;-1
+# dn_default_space_usage_thresholds=0.85;0.85
+# tier_migration_interval_seconds=3600
+# tier_migration_batch_size=10
+#
+# This configuration will:
+# - Store new data on SSD (tier 0)
+# - Migrate data older than 1 day to HDD (tier 1)
+# - Check for migration every hour
+# - Migrate up to 10 files per cycle
+
+####################
 ### Compaction Configurations
 ####################
 # sequence space compaction: only compact the sequence files
